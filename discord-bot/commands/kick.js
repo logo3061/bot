@@ -47,7 +47,7 @@ module.exports = {
         .setTitle('👢 Member Kicked')
         .setColor(0xff9100) // Vibrant Orange
         .setDescription(`**User:** ${targetUser.tag} (${targetUser.id})\n**Moderator:** ${interaction.user}\n**Reason:** ${reason}`)
-        .setFooter({ text: 'Perchance AI Moderation' })
+        .setFooter({ text: 'Helix AI Moderation' })
         .setTimestamp();
 
       await interaction.editReply({ embeds: [embed] });

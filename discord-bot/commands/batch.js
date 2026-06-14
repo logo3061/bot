@@ -152,7 +152,7 @@ module.exports = {
           `**Mood:** ${mood.charAt(0).toUpperCase() + mood.slice(1)} (${MOODS[mood]?.description || 'Neutral'})`
         )
         .setColor(0xff4081)
-        .setFooter({ text: 'Perchance AI Discord Bot v2.0' })
+        .setFooter({ text: 'Helix AI Moderation' })
         .setTimestamp();
 
       // Add variations with defensive checks

@@ -102,7 +102,7 @@ const generateImg = interaction.options.getBoolean('image') ?? true;
           { name: '🔗 Source', value: promptData.source, inline: true },
           { name: '📝 Final Prompt Text', value: `\`\`\`\n${promptData.text}\n\`\`\`` }
         )
-        .setFooter({ text: 'Helix AI' })
+        .setFooter({ text: 'Helix AI Moderation' })
         .setTimestamp();
 
       if (promptData.negatives) {

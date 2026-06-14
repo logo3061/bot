@@ -46,7 +46,7 @@ module.exports = {
         .setTitle('🔨 Member Banned')
         .setColor(0xff1744) // Intense Red
         .setDescription(`**User:** ${targetUser.tag} (${targetUser.id})\n**Moderator:** ${interaction.user}\n**Reason:** ${reason}`)
-        .setFooter({ text: 'Perchance AI Moderation' })
+        .setFooter({ text: 'Helix AI Moderation' })
         .setTimestamp();
 
       await interaction.editReply({ embeds: [embed] });

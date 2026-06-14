@@ -71,7 +71,7 @@ module.exports = {
         .setTitle('⏳ Member Timed Out')
         .setColor(0xffea00) // Bright Yellow
         .setDescription(`**User:** ${targetUser.tag} (${targetUser.id})\n**Duration:** ${durationLabel}\n**Moderator:** ${interaction.user}\n**Reason:** ${reason}`)
-        .setFooter({ text: 'Perchance AI Moderation' })
+        .setFooter({ text: 'Helix AI Moderation' })
         .setTimestamp();
 
       await interaction.editReply({ embeds: [embed] });
