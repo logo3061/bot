@@ -1,7 +1,8 @@
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
-const http = require('http'); // 1. Import the built-in HTTP module
+const http = require('http'); 
+const https = require('https'); // 1. Import https to make external requests
 require('dotenv').config();
 
 const client = new Client({
@@ -14,7 +15,6 @@ const client = new Client({
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, 'commands');
 
-// FIX: Added a check to make sure the 'commands' folder exists so it doesn't crash on startup
 if (fs.existsSync(commandsPath)) {
   const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
@@ -22,7 +22,6 @@ if (fs.existsSync(commandsPath)) {
     const filePath = path.join(commandsPath, file);
     const command = require(filePath);
     
-    // Safety check: Ensure the command has required properties before setting it
     if (command.data && command.execute) {
       client.commands.set(command.data.name, command);
     } else {
@@ -30,7 +29,7 @@ if (fs.existsSync(commandsPath)) {
     }
   }
 } else {
-  console.warn('[WARNING] "commands" directory not found. Create a commands/ folder in your root directory.');
+  console.warn('[WARNING] "commands" directory not found.');
 }
 
 // Bot ready event
@@ -61,16 +60,30 @@ client.on('interactionCreate', async interaction => {
   }
 });
 
-// 2. Create a basic web server to listen to a port
+// Create a basic web server to listen to a port
 const server = http.createServer((req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
   res.end('Bot is online and running!\n');
 });
 
-// 3. Define the port (uses environment variable PORT or defaults to 8080)
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
   console.log(`🌐 Web server is listening on port ${PORT}`);
+  
+  // 2. Anti-pause system: Ping the server every 10 minutes (600,000 ms)
+  const RENDER_URL = process.env.RENDER_EXTERNAL_URL; // Render automatically provides this env variable
+  
+  if (RENDER_URL) {
+    setInterval(() => {
+      https.get(RENDER_URL, (res) => {
+        console.log(`🔄 Self-ping sent to ${RENDER_URL} - Status Code: ${res.statusCode}`);
+      }).on('error', (err) => {
+        console.error('❌ Anti-pause ping failed:', err.message);
+      });
+    }, 600000); 
+  } else {
+    console.warn('[WARNING] RENDER_EXTERNAL_URL environment variable is missing. Self-pinging is disabled.');
+  }
 });
 
 // Login to Discord
